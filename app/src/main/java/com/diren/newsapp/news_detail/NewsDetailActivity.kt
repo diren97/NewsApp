@@ -8,12 +8,21 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.room.Room
 import com.diren.newsapp.R
 import com.diren.newsapp.ResultWrapper
+import com.diren.newsapp.db.AppDatabase
 import com.diren.newsapp.isVisible
+import com.diren.newsapp.model.News
 import com.diren.newsapp.model.NewsResponse
 import com.diren.newsapp.nonEmptyStringOrNull
 import kotlinx.android.synthetic.main.activity_detail_news.*
+import kotlinx.android.synthetic.main.list_news.*
+import kotlinx.android.synthetic.main.list_news.view.*
+import kotlinx.android.synthetic.main.list_news.view.txt_author
+import kotlinx.android.synthetic.main.list_news.view.txt_description
+import kotlinx.android.synthetic.main.list_news.view.txt_reading_list
+import kotlinx.android.synthetic.main.list_news.view.txt_title
 
 
 class NewsDetailActivity : AppCompatActivity() {
@@ -26,6 +35,7 @@ class NewsDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail_news)
 
             init()
+
     }
 
     private fun init() {
@@ -90,7 +100,7 @@ class NewsDetailActivity : AppCompatActivity() {
             }
         } else {
             txt_info.isVisible = true
-            txt_info.text = "No Search Results found for \"${searchView.query}\""
+            txt_info.text = "No Search Results"
         }
     }
 

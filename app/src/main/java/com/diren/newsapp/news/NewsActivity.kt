@@ -23,8 +23,6 @@ class NewsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news)
-
-        Log.d("dddd", "news actıvıty")
         init()
     }
 
@@ -94,7 +92,7 @@ class NewsActivity : AppCompatActivity() {
             }
         } else {
             txt_info.isVisible = true
-            txt_info.text = "No Search Results found for \"${searchView.query}\""
+            txt_info.text = "No Search Results"
         }
     }
 

@@ -6,12 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.diren.newsapp.R
+import com.diren.newsapp.db.AppDatabase
 import com.diren.newsapp.getDisplayDate
 import com.diren.newsapp.model.Articles
+import com.diren.newsapp.model.News
 import com.diren.newsapp.nonEmptyStringOrNull
+import kotlinx.android.synthetic.main.list_news.*
 import kotlinx.android.synthetic.main.list_news.view.*
+import kotlinx.android.synthetic.main.list_news.view.txt_author
+import kotlinx.android.synthetic.main.list_news.view.txt_description
+import kotlinx.android.synthetic.main.list_news.view.txt_reading_list
+import kotlinx.android.synthetic.main.list_news.view.txt_title
 
 class NewsDetailAdapter(private var list: List<Articles>) :
     RecyclerView.Adapter<NewsDetailAdapter.ViewHolder>() {
@@ -21,6 +29,7 @@ class NewsDetailAdapter(private var list: List<Articles>) :
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.list_news, parent, false)
         )
+
     }
 
     override fun getItemCount(): Int {
@@ -44,6 +53,16 @@ class NewsDetailAdapter(private var list: List<Articles>) :
                     it.context.startActivity(intent)
                 }
             }
+            val db: AppDatabase = Room.databaseBuilder(view.context,AppDatabase::class.java,"news")
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build()
+            view.txt_reading_list.setOnClickListener {
+                val news: News = News(view.txt_title.text.toString(),view.txt_author.text.toString(),view.txt_description.text.toString())
+                db.newsDao().insertAll(news)
+                view.txt_reading_list.setText(R.string.okuma_listemden_çıkar)
+            }
+
         }
         fun bind(position: Int) {
             list.getOrNull(position)?.let { article ->
